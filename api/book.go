@@ -7,9 +7,9 @@ import (
 
 //Book type with Name, Author and ISBN
 type Book struct {
-	Title  string
-	Author string
-	ISBN   string
+	Title  string `json:"title"`
+	Author string `json:"author"`
+	ISBN   string `json:"isbn"`
 	//define the book
 }
 
@@ -24,9 +24,26 @@ func (b Book) ToJSON() []byte {
 
 // FromJSON to be used for marshalling of Book type
 func FromJSON(data []byte) Book {
-	return Book{}
+	book := Book{}
+	err := json.Unmarshal(data, &book)
+	if err != nil {
+		panic(err)
+	}
+	return book
+}
+
+// Books slice of all known books
+var Books = []Book{
+	Book{Title: "The Hitchhiker's Guide to the Galaxy", Author: "Douglas Admin", ISBN: "0345391802"},
+	Book{Title: "Cloud Native Go", Author: "M. -L. Reimer", ISBN: "0123456789"},
 }
 
 func BooksHandleFunc(w http.ResponseWriter, r *http.Request) {
+	b, err := json.Marshal(Books)
+	if err != nil {
+		panic(err)
+	}
 
+	w.Header().Add("Content-Type", "application/json; charset=utf-8")
+	w.Write(b)
 }
