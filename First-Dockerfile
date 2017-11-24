@@ -1,0 +1,13 @@
+FROM golang:1.9.2-alpine
+MAINTAINER Edward Cheadle
+
+ENV SOURCES /go/src/CLOUD-NATIVE-GO/
+
+COPY . ${SOURCES}
+
+RUN cd ${SOURCES} && GGO_ENABLED=0 go install
+
+ENV PORT 8080
+EXPOSE 8080
+
+ENTRYPOINT [ "CLOUD-NATIVE-GO" ]
