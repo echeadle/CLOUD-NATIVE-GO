@@ -1,7 +1,7 @@
-FROM golang:1.9.2
+FROM golang:1.9.2-alpine
 MAINTAINER Edward Cheadle
 
-ENV SOURCES /go/src/github.com/echeadle/CLOUD-NATIVE-GO/
+ENV SOURCES /go/src/CLOUD-NATIVE-GO/
 
 COPY . ${SOURCES}
 
